@@ -12,9 +12,9 @@ const TestHost = defineComponent({
     },
   },
   setup(props) {
-    const mode = ref(props.mode)
-    useScreenOrientation(mode)
-    return { mode }
+    const appMode = ref(props.mode)
+    useScreenOrientation(appMode)
+    return { appMode }
   },
   template: '<div />',
 })
@@ -50,7 +50,7 @@ describe('useScreenOrientation', () => {
     await nextTick()
     lock.mockClear()
 
-    wrapper.vm.mode = 'play'
+    wrapper.vm.appMode = 'play'
     await nextTick()
 
     expect(lock).toHaveBeenCalledWith('landscape')
@@ -61,7 +61,7 @@ describe('useScreenOrientation', () => {
     await nextTick()
     lock.mockClear()
 
-    wrapper.vm.mode = 'edit'
+    wrapper.vm.appMode = 'edit'
     await nextTick()
 
     expect(lock).toHaveBeenCalledWith('portrait-primary')

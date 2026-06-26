@@ -4,4 +4,6 @@ import { useAppUpdate } from '@/composables'
 useAppUpdate()
 </script>
 
-<template />
+<template>
+  <span hidden aria-hidden="true" />
+</template>
