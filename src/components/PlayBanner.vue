@@ -103,25 +103,25 @@ onUnmounted(() => {
     </div>
 
     <div class="play-banner__controls">
-        <button
-          class="play-banner__share play-banner__action-btn"
-          type="button"
-          :aria-label="t('share.ariaLabel')"
-          @click="onShare"
-        >
-          <ActionIcon :src="shareIcon" size="1rem" />
-          <span>{{ shareFeedback || t('play.share') }}</span>
-        </button>
+      <button
+        class="play-banner__share play-banner__action-btn"
+        type="button"
+        :aria-label="t('share.ariaLabel')"
+        @click="onShare"
+      >
+        <ActionIcon :src="shareIcon" size="1rem" />
+        <span>{{ shareFeedback || t('play.share') }}</span>
+      </button>
 
-        <button
-          class="play-banner__stop play-banner__action-btn"
-          type="button"
-          :aria-label="t('aria.stopPlay')"
-          @click="onStop"
-        >
-          <ActionIcon :src="stopIcon" size="1rem" />
-          <span>{{ t('play.stop') }}</span>
-        </button>
+      <button
+        class="play-banner__stop play-banner__action-btn"
+        type="button"
+        :aria-label="t('aria.stopPlay')"
+        @click="onStop"
+      >
+        <ActionIcon :src="stopIcon" size="1rem" />
+        <span>{{ t('play.stop') }}</span>
+      </button>
     </div>
 
     <div ref="trackRef" class="play-banner__track" @click="onBannerClick">
