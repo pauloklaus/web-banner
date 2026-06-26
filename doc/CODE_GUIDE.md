@@ -75,7 +75,6 @@ src/
 | Variable               | Purpose                         |
 | ---------------------- | ------------------------------- |
 | `VITE_APP_NAME`        | Name in UI, title, PWA manifest |
-| `VITE_AUTHOR`          | Footer                          |
 | `VITE_GITHUB_REPO_URL` | Repository link in footer       |
 | `VITE_SITE_URL`        | Canonical URL (OG, meta)        |
 
