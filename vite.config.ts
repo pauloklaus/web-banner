@@ -1,0 +1,77 @@
+import { fileURLToPath, URL } from 'node:url'
+import { loadEnv } from 'vite'
+import { defineConfig } from 'vitest/config'
+import vue from '@vitejs/plugin-vue'
+import { VitePWA } from 'vite-plugin-pwa'
+
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '')
+  const appName = env.VITE_APP_NAME || 'WebBanner'
+
+  return {
+    resolve: {
+      alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
+      },
+    },
+    plugins: [
+      vue(),
+      VitePWA({
+        registerType: 'autoUpdate',
+        includeAssets: ['icons/*.png', 'icons/*.svg'],
+        manifest: {
+          name: appName,
+          short_name: appName,
+          description: 'Scrolling text banner',
+          theme_color: '#1a1a1a',
+          background_color: '#1a1a1a',
+          display: 'standalone',
+          orientation: 'landscape',
+          icons: [
+            {
+              src: 'icons/icon-192.png',
+              sizes: '192x192',
+              type: 'image/png',
+            },
+            {
+              src: 'icons/icon-512.png',
+              sizes: '512x512',
+              type: 'image/png',
+            },
+            {
+              src: 'icons/icon-512.png',
+              sizes: '512x512',
+              type: 'image/png',
+              purpose: 'maskable',
+            },
+          ],
+        },
+      }),
+    ],
+    test: {
+      environment: 'happy-dom',
+      include: ['src/**/*.{test,spec}.ts'],
+      coverage: {
+        provider: 'v8',
+        reporter: ['text', 'html'],
+        include: ['src/**/*.{ts,vue}'],
+        exclude: [
+          'src/**/*.{test,spec}.ts',
+          'src/test/**',
+          'src/types/**',
+          'src/constants/**',
+          'src/main.ts',
+          'src/**/index.ts',
+          'src/shims-vue.d.ts',
+          'src/env.d.ts',
+        ],
+        thresholds: {
+          lines: 80,
+          functions: 80,
+          branches: 80,
+          statements: 80,
+        },
+      },
+    },
+  }
+})
