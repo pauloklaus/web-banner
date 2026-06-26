@@ -1,0 +1,36 @@
+{
+  "meta": {
+    "description": "Banner de texto desplazable a pantalla completa. Configura mensaje, colores y velocidad y comparte por URL.",
+    "ogImage": "/icons/og-image-es.png",
+    "ogLocale": "es_ES"
+  },
+  "edit": {
+    "message": "Mensaje",
+    "messagePlaceholder": "Escribe tu mensaje...",
+    "background": "Fondo",
+    "text": "Texto",
+    "speed": "Velocidad",
+    "play": "Play"
+  },
+  "play": {
+    "share": "Compartir",
+    "stop": "Detener"
+  },
+  "share": {
+    "linkCopied": "¡Enlace copiado!",
+    "ariaLabel": "Compartir configuración"
+  },
+  "install": {
+    "button": "Instalar",
+    "ariaLabel": "Instalar aplicación"
+  },
+  "footer": {
+    "by": "por",
+    "github": "GitHub"
+  },
+  "aria": {
+    "backgroundColor": "Color de fondo",
+    "textColor": "Color del texto",
+    "stopPlay": "Detener y volver al modo de edición"
+  }
+}

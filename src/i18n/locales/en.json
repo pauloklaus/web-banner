@@ -1,0 +1,36 @@
+{
+  "meta": {
+    "description": "Fullscreen scrolling text banner. Configure message, colors, and speed, then share via URL.",
+    "ogImage": "/icons/og-image-en.png",
+    "ogLocale": "en_US"
+  },
+  "edit": {
+    "message": "Message",
+    "messagePlaceholder": "Enter your message...",
+    "background": "Background",
+    "text": "Text",
+    "speed": "Speed",
+    "play": "Play"
+  },
+  "play": {
+    "share": "Share",
+    "stop": "Stop"
+  },
+  "share": {
+    "linkCopied": "Link copied!",
+    "ariaLabel": "Share configuration"
+  },
+  "install": {
+    "button": "Install",
+    "ariaLabel": "Install app"
+  },
+  "footer": {
+    "by": "by",
+    "github": "GitHub"
+  },
+  "aria": {
+    "backgroundColor": "Background color",
+    "textColor": "Text color",
+    "stopPlay": "Stop and return to edit mode"
+  }
+}
