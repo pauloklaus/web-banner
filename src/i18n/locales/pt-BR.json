@@ -1,0 +1,36 @@
+{
+  "meta": {
+    "description": "Banner de texto em rolagem em tela cheia. Configure mensagem, cores e velocidade e compartilhe via URL.",
+    "ogImage": "/icons/og-image-pt.png",
+    "ogLocale": "pt_BR"
+  },
+  "edit": {
+    "message": "Mensagem",
+    "messagePlaceholder": "Digite sua mensagem...",
+    "background": "Fundo",
+    "text": "Texto",
+    "speed": "Velocidade",
+    "play": "Play"
+  },
+  "play": {
+    "share": "Compartilhar",
+    "stop": "Parar"
+  },
+  "share": {
+    "linkCopied": "Link copiado!",
+    "ariaLabel": "Compartilhar configuração"
+  },
+  "install": {
+    "button": "Instalar",
+    "ariaLabel": "Instalar aplicativo"
+  },
+  "footer": {
+    "by": "por",
+    "github": "GitHub"
+  },
+  "aria": {
+    "backgroundColor": "Cor de fundo",
+    "textColor": "Cor do texto",
+    "stopPlay": "Parar e voltar ao modo de edição"
+  }
+}
