@@ -13,14 +13,16 @@ interface ParsedArgs {
   commit: string
   branch: string
   baseRef: string
-  expectedOnly: boolean
+  check: boolean
+  shouldTag: boolean
 }
 
 function parseArgs(argv: string[]): ParsedArgs {
   let commit = ''
   let branch = ''
   let baseRef = ''
-  let expectedOnly = false
+  let check = false
+  let shouldTag = false
   for (let index = 2; index < argv.length; index++) {
     const arg = argv[index]
     if (arg === '--commit' && argv[index + 1]) {
@@ -29,11 +31,13 @@ function parseArgs(argv: string[]): ParsedArgs {
       branch = argv[++index] ?? ''
     } else if (arg === '--base-ref' && argv[index + 1]) {
       baseRef = argv[++index] ?? ''
-    } else if (arg === '--expected-only') {
-      expectedOnly = true
+    } else if (arg === '--check') {
+      check = true
+    } else if (arg === '--should-tag') {
+      shouldTag = true
     }
   }
-  return { commit, branch, baseRef, expectedOnly }
+  return { commit, branch, baseRef, check, shouldTag }
 }
 
 function resolveBumpFromCommit(commit: string): BumpKind | null {
@@ -76,42 +80,41 @@ function applyBump(version: string, kind: BumpKind): string {
   return `${major}.${minor}.${patch + 1}`
 }
 
-function restoreFromRef(ref: string): void {
-  execSync(`git checkout ${ref} -- package.json package-lock.json`, { cwd: root })
-}
-
 function main(): void {
-  const { commit, branch, baseRef, expectedOnly } = parseArgs(process.argv)
+  const { commit, branch, baseRef, check, shouldTag } = parseArgs(process.argv)
+
+  if (shouldTag) {
+    process.stdout.write(resolveBump(commit, branch) ? 'yes' : 'no')
+    return
+  }
+
+  if (!check) {
+    console.error('Use --check or --should-tag.')
+    process.exit(2)
+  }
+
   const bumpKind = resolveBump(commit, branch)
-
   if (!bumpKind) {
-    console.error(
-      'No release prefix found in commit or branch; version unchanged.',
-    )
     return
   }
 
-  const baseVersion = baseRef ? readVersionAtRef(baseRef) : readCurrentVersion()
-  const nextVersion = applyBump(baseVersion, bumpKind)
+  if (!baseRef) {
+    console.error('--base-ref is required with --check.')
+    process.exit(2)
+  }
 
-  if (expectedOnly) {
-    process.stdout.write(nextVersion)
+  const expectedVersion = applyBump(readVersionAtRef(baseRef), bumpKind)
+  const currentVersion = readCurrentVersion()
+
+  if (currentVersion === expectedVersion) {
     return
   }
 
-  if (baseRef) {
-    restoreFromRef(baseRef)
-  }
-
-  const taggedVersion = execSync(
-    `npm version ${bumpKind} --no-git-tag-version`,
-    {
-      cwd: root,
-      encoding: 'utf8',
-    },
-  ).trim()
-
-  process.stdout.write(taggedVersion.replace(/^v/, ''))
+  console.error(
+    `Release PR requires version ${expectedVersion} but package.json has ${currentVersion}.`,
+  )
+  console.error(`Run: npm version ${bumpKind} --no-git-tag-version`)
+  process.exit(1)
 }
 
 main()

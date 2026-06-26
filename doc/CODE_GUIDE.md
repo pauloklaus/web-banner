@@ -174,3 +174,26 @@ chore(deps): bump vue-tsc
 - One logical change per commit when possible
 - Do not mix unrelated changes in the same commit
 - Prefer `feat` / `fix` / `docs` over vague messages like `update` or `wip`
+
+## Releases
+
+Cloudflare Pages deploys automatically on every push to `main`. Keep **one deploy per merge** by bumping the version in the pull request — do not rely on post-merge commits.
+
+| PR title or branch prefix | Version bump |
+| ------------------------- | ------------ |
+| `fix:` or `fix/`          | patch        |
+| `feat:` or `feat/`        | minor        |
+| `breaking:` or `breaking/` | major       |
+| `docs:`, `chore:`, `ci:`, … | none      |
+
+Before opening a release PR, run the matching command locally:
+
+```bash
+npm version patch --no-git-tag-version   # fix
+npm version minor --no-git-tag-version   # feat
+npm version major --no-git-tag-version   # breaking
+```
+
+CI checks that `package.json` matches the expected version. After merge, the Release workflow tags `vX.Y.Z` from `package.json` without pushing another commit to `main`.
+
+Use **squash merge** so the commit message on `main` matches the PR title.
