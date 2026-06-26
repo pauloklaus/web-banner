@@ -23,10 +23,10 @@ TypeScript Vue 3 SPA: scrolling text banner with edit/play modes, URL sharing, a
 
 ## Where to look
 
-| Area           | Path                                   |
-| -------------- | -------------------------------------- |
-| App entry      | `src/App.vue`, `src/main.ts`           |
+| Area           | Path                                            |
+| -------------- | ----------------------------------------------- |
+| App entry      | `src/App.vue`, `src/main.ts`                    |
 | Config / env   | `src/config/`, `src/constants/`, `.env.example` |
-| i18n           | `src/i18n/`, `src/i18n/locales/*.json` |
-| Reusable logic | `src/composables/`                     |
-| Deploy / usage | `README.md`                            |
+| i18n           | `src/i18n/`, `src/i18n/locales/*.json`          |
+| Reusable logic | `src/composables/`                              |
+| Deploy / usage | `README.md`                                     |

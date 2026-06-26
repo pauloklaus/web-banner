@@ -18,7 +18,9 @@ describe('toPlainText', () => {
   })
 
   it('collapses line breaks and tabs into spaces', () => {
-    expect(toPlainText('line one\nline two\t tab')).toBe('line one line two  tab')
+    expect(toPlainText('line one\nline two\t tab')).toBe(
+      'line one line two  tab',
+    )
   })
 
   it('truncates to max message length', () => {

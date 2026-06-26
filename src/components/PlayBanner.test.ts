@@ -4,7 +4,10 @@ import PlayBanner from './PlayBanner.vue'
 
 describe('PlayBanner', () => {
   beforeEach(() => {
-    vi.stubGlobal('requestAnimationFrame', vi.fn(() => 1))
+    vi.stubGlobal(
+      'requestAnimationFrame',
+      vi.fn(() => 1),
+    )
     vi.stubGlobal('cancelAnimationFrame', vi.fn())
     vi.stubGlobal('innerWidth', 1024)
     vi.stubGlobal('innerHeight', 768)

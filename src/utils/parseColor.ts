@@ -21,7 +21,11 @@ function parseRgbString(value: string): string | null {
   const match = /^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/.exec(value)
   if (!match) return null
 
-  return rgbComponentsToHex(Number(match[1]), Number(match[2]), Number(match[3]))
+  return rgbComponentsToHex(
+    Number(match[1]),
+    Number(match[2]),
+    Number(match[3]),
+  )
 }
 
 function resolveCssColorViaStyle(value: string): string | null {
