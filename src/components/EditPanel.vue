@@ -175,12 +175,14 @@ function onMessagePaste(event: ClipboardEvent): void {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 1.5rem;
   width: 100%;
-  height: 100%;
-  padding: 1.5rem;
-  padding-bottom: 2.75rem;
+  min-height: 100%;
+  min-height: 100dvh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 4.5rem 1.5rem 2.75rem;
   background: #1a1a1a;
   color: #f0f0f0;
 }

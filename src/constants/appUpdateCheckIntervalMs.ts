@@ -1,0 +1,1 @@
+export const APP_UPDATE_CHECK_INTERVAL_MS = 5 * 60 * 1000

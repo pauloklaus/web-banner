@@ -47,14 +47,19 @@ function main(): void {
   const bumpKind = resolveBump(commit, branch)
 
   if (!bumpKind) {
-    console.error('No release prefix found in commit or branch; version unchanged.')
+    console.error(
+      'No release prefix found in commit or branch; version unchanged.',
+    )
     return
   }
 
-  const taggedVersion = execSync(`npm version ${bumpKind} --no-git-tag-version`, {
-    cwd: root,
-    encoding: 'utf8',
-  }).trim()
+  const taggedVersion = execSync(
+    `npm version ${bumpKind} --no-git-tag-version`,
+    {
+      cwd: root,
+      encoding: 'utf8',
+    },
+  ).trim()
 
   process.stdout.write(taggedVersion.replace(/^v/, ''))
 }

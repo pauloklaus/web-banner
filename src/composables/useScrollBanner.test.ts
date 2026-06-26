@@ -20,7 +20,10 @@ const TestHost = defineComponent({
 
 describe('useScrollBanner', () => {
   beforeEach(() => {
-    vi.stubGlobal('requestAnimationFrame', vi.fn(() => 1))
+    vi.stubGlobal(
+      'requestAnimationFrame',
+      vi.fn(() => 1),
+    )
     vi.stubGlobal('cancelAnimationFrame', vi.fn())
     vi.stubGlobal('innerWidth', 800)
     Element.prototype.getBoundingClientRect = vi.fn(() => ({

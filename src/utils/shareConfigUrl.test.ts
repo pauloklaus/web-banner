@@ -26,9 +26,11 @@ describe('shareConfigUrl', () => {
   })
 
   it('returns cancelled when share is aborted', async () => {
-    const share = vi.fn().mockRejectedValue(
-      Object.assign(new Error('aborted'), { name: 'AbortError' }),
-    )
+    const share = vi
+      .fn()
+      .mockRejectedValue(
+        Object.assign(new Error('aborted'), { name: 'AbortError' }),
+      )
     vi.stubGlobal('navigator', {
       share,
       userAgent: 'Mozilla/5.0',
