@@ -2,15 +2,18 @@ name: CI
 
 on:
   pull_request:
+    branches: [main]
 
 jobs:
-  quality:
-    name: Lint, typecheck & coverage
+  ci:
+    name: Lint, typecheck, coverage & version
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -29,3 +32,15 @@ jobs:
 
       - name: Coverage
         run: npm run test:coverage
+
+      - name: Check release version bump
+        if: github.event.pull_request.head.repo.full_name == github.repository
+        env:
+          COMMIT_MESSAGE: ${{ github.event.pull_request.title }}
+          BRANCH_NAME: ${{ github.head_ref }}
+        run: |
+          git fetch origin main
+          npx tsx scripts/release-version.ts --check \
+            --commit "$COMMIT_MESSAGE" \
+            --branch "$BRANCH_NAME" \
+            --base-ref origin/main
