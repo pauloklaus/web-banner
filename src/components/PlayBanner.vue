@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { APP_NAME, SITE_URL } from '@/config'
 import { useScrollBanner } from '@/composables'
+import AppBrand from './AppBrand.vue'
 import ActionIcon from './ActionIcon.vue'
 import shareIcon from '../assets/icons/share.svg'
 import stopIcon from '../assets/icons/stop.svg'
@@ -27,11 +29,12 @@ const emit = defineEmits<{
 }>()
 
 const textRef = ref<HTMLSpanElement | null>(null)
+const trackRef = ref<HTMLElement | null>(null)
 
 const fontSize = ref(0)
 
 function updateFontSize() {
-  const trackHeight = window.innerHeight - 40
+  const trackHeight = trackRef.value?.clientHeight ?? window.innerHeight - 40
   fontSize.value = Math.floor(trackHeight * FONT_HEIGHT_RATIO)
 }
 
@@ -50,6 +53,10 @@ const textStyle = computed(() => ({
   fontSize: `${fontSize.value}px`,
   wordSpacing: `${WORD_SPACING_EM}em`,
 }))
+
+const displaySiteUrl = computed(() =>
+  SITE_URL.replace(/^https?:\/\//, '').replace(/\/$/, ''),
+)
 
 function onBannerClick() {
   togglePause()
@@ -90,31 +97,34 @@ onUnmounted(() => {
     class="play-banner"
     :class="{ 'play-banner--paused': isPaused }"
     :style="bannerStyle"
-    @click="onBannerClick"
   >
-    <div class="play-banner__controls">
-      <button
-        class="play-banner__share play-banner__action-btn"
-        type="button"
-        :aria-label="t('share.ariaLabel')"
-        @click="onShare"
-      >
-        <ActionIcon :src="shareIcon" size="1rem" />
-        <span>{{ shareFeedback || t('play.share') }}</span>
-      </button>
-
-      <button
-        class="play-banner__stop play-banner__action-btn"
-        type="button"
-        :aria-label="t('aria.stopPlay')"
-        @click="onStop"
-      >
-        <ActionIcon :src="stopIcon" size="1rem" />
-        <span>{{ t('play.stop') }}</span>
-      </button>
+    <div class="play-banner__brand" :aria-label="APP_NAME" @click.stop>
+      <AppBrand :label="displaySiteUrl" :href="SITE_URL" />
     </div>
 
-    <div class="play-banner__track">
+    <div class="play-banner__controls">
+        <button
+          class="play-banner__share play-banner__action-btn"
+          type="button"
+          :aria-label="t('share.ariaLabel')"
+          @click="onShare"
+        >
+          <ActionIcon :src="shareIcon" size="1rem" />
+          <span>{{ shareFeedback || t('play.share') }}</span>
+        </button>
+
+        <button
+          class="play-banner__stop play-banner__action-btn"
+          type="button"
+          :aria-label="t('aria.stopPlay')"
+          @click="onStop"
+        >
+          <ActionIcon :src="stopIcon" size="1rem" />
+          <span>{{ t('play.stop') }}</span>
+        </button>
+    </div>
+
+    <div ref="trackRef" class="play-banner__track" @click="onBannerClick">
       <span ref="textRef" class="play-banner__text" :style="textStyle">{{
         message
       }}</span>
@@ -127,14 +137,16 @@ onUnmounted(() => {
   position: relative;
   width: 100%;
   height: 100vh;
-  padding: 20px 0;
   overflow: hidden;
-  cursor: pointer;
   user-select: none;
 }
 
 .play-banner--paused .play-banner__text {
   opacity: 0.75;
+}
+
+.play-banner__brand {
+  display: none;
 }
 
 .play-banner__controls {
@@ -175,8 +187,19 @@ onUnmounted(() => {
 .play-banner__track {
   position: relative;
   width: 100%;
-  height: calc(100vh - 40px);
+  height: 100vh;
   overflow: hidden;
+  cursor: pointer;
+}
+
+@media (orientation: landscape) {
+  .play-banner__brand {
+    display: block;
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 10;
+  }
 }
 
 .play-banner__text {
