@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { EditPanel, PlayBanner } from '@/components'
+import { EditPanel, PlayBanner, AppUpdateWatcher } from '@/components'
 import { buildConfigUrl, shareConfigUrl } from '@/utils'
 import { useDocumentMeta, useScreenOrientation, useUrlSync } from '@/composables'
 import type { AppMode } from '@/types/appMode'
@@ -44,6 +44,7 @@ async function handleShare() {
 </script>
 
 <template>
+  <AppUpdateWatcher />
   <EditPanel
     v-if="mode === 'edit'"
     v-model:message="message"
