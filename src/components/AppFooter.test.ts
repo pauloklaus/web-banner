@@ -4,16 +4,23 @@ import AppFooter from './AppFooter.vue'
 
 vi.mock('@/config', () => ({
   APP_NAME: 'WebBanner',
-  AUTHOR: 'Test Author',
   GITHUB_REPO_URL: 'https://github.com/test/repo',
 }))
 
+vi.mock('@/utils', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/utils')>()
+  return {
+    ...actual,
+    readLoadedAppVersion: vi.fn(() => '0.1.1'),
+  }
+})
+
 describe('AppFooter', () => {
-  it('renders app name, author, and github link', () => {
+  it('renders app name, version, and github link', () => {
     const wrapper = mountWithI18n(AppFooter)
 
     expect(wrapper.text()).toContain('WebBanner')
-    expect(wrapper.text()).toContain('Test Author')
+    expect(wrapper.text()).toContain('v0.1.1')
     expect(wrapper.text()).toContain('GitHub')
 
     const link = wrapper.find('a.app-footer__link')
