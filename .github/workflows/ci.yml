@@ -6,7 +6,7 @@ on:
 
 jobs:
   ci:
-    name: Lint, typecheck & coverage
+    name: Lint, format, typecheck & coverage
     runs-on: ubuntu-latest
 
     steps:
@@ -24,6 +24,9 @@ jobs:
 
       - name: Lint
         run: npm run lint
+
+      - name: Format
+        run: npm run format:check
 
       - name: Typecheck
         run: npm run typecheck

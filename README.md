@@ -62,7 +62,6 @@ cp .env.example .env
 | Variable               | Description                                                |
 | ---------------------- | ---------------------------------------------------------- |
 | `VITE_APP_NAME`        | App name shown in the UI, document title, and PWA manifest |
-| `VITE_AUTHOR`          | Author name shown in the footer                            |
 | `VITE_GITHUB_REPO_URL` | Repository URL linked from the footer                      |
 | `VITE_SITE_URL`        | Canonical site URL (Open Graph and meta tags)              |
 

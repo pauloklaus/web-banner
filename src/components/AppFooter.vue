@@ -1,21 +1,23 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { APP_NAME, AUTHOR, GITHUB_REPO_URL } from '@/config'
+import { APP_NAME, GITHUB_REPO_URL } from '@/config'
+import { readLoadedAppVersion } from '@/utils'
 
 const { t } = useI18n()
+const appVersion = readLoadedAppVersion()
 </script>
 
 <template>
   <footer class="app-footer">
     <span class="app-footer__name">{{ APP_NAME }}</span>
 
-    <template v-if="AUTHOR">
-      <span class="app-footer__sep" aria-hidden="true">·</span>
-      <span>{{ t('footer.by') }} {{ AUTHOR }}</span>
+    <template v-if="appVersion">
+      <span class="app-footer__sep" aria-hidden="true">&bullet;</span>
+      <span class="app-footer__version">v{{ appVersion }}</span>
     </template>
 
     <template v-if="GITHUB_REPO_URL">
-      <span class="app-footer__sep" aria-hidden="true">·</span>
+      <span class="app-footer__sep" aria-hidden="true">&bullet;</span>
       <a
         class="app-footer__link"
         :href="GITHUB_REPO_URL"
@@ -46,7 +48,8 @@ const { t } = useI18n()
   text-transform: lowercase;
 }
 
-.app-footer__name {
+.app-footer__name,
+.app-footer__version {
   color: #888;
 }
 
