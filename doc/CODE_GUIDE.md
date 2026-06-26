@@ -177,23 +177,15 @@ chore(deps): bump vue-tsc
 
 ## Releases
 
-Cloudflare Pages deploys automatically on every push to `main`. Keep **one deploy per merge** by bumping the version in the pull request — do not rely on post-merge commits.
+Cloudflare Pages deploys on every push to `main`. The version is bumped automatically when a PR is **opened** (commit on the PR branch), so merge triggers a single deploy with the correct version.
 
-| PR title or branch prefix | Version bump |
-| ------------------------- | ------------ |
-| `fix:` or `fix/`          | patch        |
-| `feat:` or `feat/`        | minor        |
-| `breaking:` or `breaking/` | major       |
-| `docs:`, `chore:`, `ci:`, … | none      |
+| PR title prefix | Version bump |
+| --------------- | ------------ |
+| `fix:`, `refactor:`, `style:` | patch |
+| `feat:` | minor |
+| `breaking:` | major |
+| `docs:`, `chore:`, `ci:`, … | none |
 
-Before opening a release PR, run the matching command locally:
+The Version workflow reads the PR title and runs `npm version` accordingly. After merge, it creates the `vX.Y.Z` git tag without an extra commit on `main`.
 
-```bash
-npm version patch --no-git-tag-version   # fix
-npm version minor --no-git-tag-version   # feat
-npm version major --no-git-tag-version   # breaking
-```
-
-CI checks that `package.json` matches the expected version. After merge, the Release workflow tags `vX.Y.Z` from `package.json` without pushing another commit to `main`.
-
-Use **squash merge** so the commit message on `main` matches the PR title.
+Use a release prefix in the **PR title** before opening (or immediately after, then re-open). Prefer **squash merge** so `main` keeps the same title.
