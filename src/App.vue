@@ -3,7 +3,11 @@ import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { EditPanel, PlayBanner, AppUpdateWatcher } from '@/components'
 import { buildConfigUrl, shareConfigUrl } from '@/utils'
-import { useDocumentMeta, useScreenOrientation, useUrlSync } from '@/composables'
+import {
+  useDocumentMeta,
+  useScreenOrientation,
+  useUrlSync,
+} from '@/composables'
 import type { AppMode } from '@/types/appMode'
 import type { SpeedOption } from '@/types/speedOption'
 

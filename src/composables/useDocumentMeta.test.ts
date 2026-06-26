@@ -39,9 +39,9 @@ describe('useDocumentMeta', () => {
     expect(document.title).toBe('WebBanner')
     expect(document.documentElement.lang).toBe('en')
     expect(
-      document.head.querySelector('meta[name="description"]')?.getAttribute(
-        'content',
-      ),
+      document.head
+        .querySelector('meta[name="description"]')
+        ?.getAttribute('content'),
     ).toBeTruthy()
     expect(
       document.head

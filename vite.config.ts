@@ -5,7 +5,9 @@ import { defineConfig } from 'vitest/config'
 import vue from '@vitejs/plugin-vue'
 import { VitePWA } from 'vite-plugin-pwa'
 
-const packageJsonPath = fileURLToPath(new URL('./package.json', import.meta.url))
+const packageJsonPath = fileURLToPath(
+  new URL('./package.json', import.meta.url),
+)
 const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8')) as {
   version: string
 }

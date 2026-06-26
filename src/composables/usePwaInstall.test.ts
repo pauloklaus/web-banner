@@ -21,7 +21,10 @@ function createBeforeInstallPromptEvent(): BeforeInstallPromptEvent {
 
 describe('usePwaInstall', () => {
   beforeEach(() => {
-    vi.stubGlobal('matchMedia', vi.fn(() => ({ matches: false })))
+    vi.stubGlobal(
+      'matchMedia',
+      vi.fn(() => ({ matches: false })),
+    )
     Object.defineProperty(navigator, 'standalone', {
       value: false,
       configurable: true,
@@ -63,7 +66,10 @@ describe('usePwaInstall', () => {
   })
 
   it('skips listeners when already standalone', async () => {
-    vi.stubGlobal('matchMedia', vi.fn(() => ({ matches: true })))
+    vi.stubGlobal(
+      'matchMedia',
+      vi.fn(() => ({ matches: true })),
+    )
 
     const addSpy = vi.spyOn(window, 'addEventListener')
     const wrapper = mount(TestHost)
