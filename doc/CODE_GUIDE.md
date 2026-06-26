@@ -178,12 +178,12 @@ chore(deps): bump vue-tsc
 
 Cloudflare Pages deploys on every push to `main`. The version is bumped automatically when a PR is **opened** (commit on the PR branch), so merge triggers a single deploy with the correct version.
 
-| PR title prefix | Version bump |
-| --------------- | ------------ |
-| `fix:`, `refactor:`, `style:` | patch |
-| `feat:` | minor |
-| `breaking:` | major |
-| `docs:`, `chore:`, `ci:`, … | none |
+| PR title prefix               | Version bump |
+| ----------------------------- | ------------ |
+| `fix:`, `refactor:`, `style:` | patch        |
+| `feat:`                       | minor        |
+| `breaking:`                   | major        |
+| `docs:`, `chore:`, `ci:`, …   | none         |
 
 The Version workflow reads the PR title and runs `npm version` accordingly. After merge, it creates the `vX.Y.Z` git tag without an extra commit on `main`.
 
