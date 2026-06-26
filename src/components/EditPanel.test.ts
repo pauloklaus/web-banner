@@ -26,8 +26,12 @@ describe('EditPanel', () => {
   it('disables play and share when message is empty', () => {
     const wrapper = mountEditPanel()
 
-    expect(wrapper.find('.edit-panel__play').attributes('disabled')).toBeDefined()
-    expect(wrapper.find('.edit-panel__share').attributes('disabled')).toBeDefined()
+    expect(
+      wrapper.find('.edit-panel__play').attributes('disabled'),
+    ).toBeDefined()
+    expect(
+      wrapper.find('.edit-panel__share').attributes('disabled'),
+    ).toBeDefined()
   })
 
   it('enables play and emits event when message is present', async () => {

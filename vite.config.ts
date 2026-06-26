@@ -1,12 +1,32 @@
 import { fileURLToPath, URL } from 'node:url'
-import { loadEnv } from 'vite'
+import { readFileSync } from 'node:fs'
+import { loadEnv, type Plugin } from 'vite'
 import { defineConfig } from 'vitest/config'
 import vue from '@vitejs/plugin-vue'
 import { VitePWA } from 'vite-plugin-pwa'
 
+const packageJsonPath = fileURLToPath(
+  new URL('./package.json', import.meta.url),
+)
+const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8')) as {
+  version: string
+}
+
+function injectBuildMeta(version: string, buildDate: string): Plugin {
+  return {
+    name: 'inject-build-meta',
+    transformIndexHtml(html) {
+      return html
+        .replaceAll('%VERSION%', version)
+        .replaceAll('%BUILD_DATE%', buildDate)
+    },
+  }
+}
+
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   const appName = env.VITE_APP_NAME || 'WebBanner'
+  const buildDate = new Date().toISOString()
 
   return {
     resolve: {
@@ -16,6 +36,7 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       vue(),
+      injectBuildMeta(packageJson.version, buildDate),
       VitePWA({
         registerType: 'autoUpdate',
         includeAssets: ['icons/*.png', 'icons/*.svg'],
@@ -26,7 +47,7 @@ export default defineConfig(({ mode }) => {
           theme_color: '#1a1a1a',
           background_color: '#1a1a1a',
           display: 'standalone',
-          orientation: 'landscape',
+          orientation: 'any',
           icons: [
             {
               src: 'icons/icon-192.png',

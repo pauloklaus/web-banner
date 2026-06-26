@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { EditPanel, PlayBanner } from '@/components'
+import { EditPanel, PlayBanner, AppUpdateWatcher } from '@/components'
 import { buildConfigUrl, shareConfigUrl } from '@/utils'
-import { useDocumentMeta, useUrlSync } from '@/composables'
+import {
+  useDocumentMeta,
+  useScreenOrientation,
+  useUrlSync,
+} from '@/composables'
 import type { AppMode } from '@/types/appMode'
 import type { SpeedOption } from '@/types/speedOption'
 
@@ -19,6 +23,7 @@ const shareFeedback = ref('')
 
 const state = { message, bgColor, textColor, speedMultiplier, mode }
 const { syncNow } = useUrlSync(state)
+useScreenOrientation(mode)
 
 function startPlay() {
   if (!message.value.trim()) return
@@ -43,6 +48,7 @@ async function handleShare() {
 </script>
 
 <template>
+  <AppUpdateWatcher />
   <EditPanel
     v-if="mode === 'edit'"
     v-model:message="message"
