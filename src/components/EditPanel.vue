@@ -76,7 +76,8 @@ function onMessagePaste(event: ClipboardEvent): void {
       </button>
     </header>
 
-    <label class="edit-panel__field">
+    <div class="edit-panel__scroll">
+      <label class="edit-panel__field">
       <span class="edit-panel__label">{{ t('edit.message') }}</span>
       <input
         :value="message"
@@ -93,44 +94,46 @@ function onMessagePaste(event: ClipboardEvent): void {
       >
     </label>
 
-    <div class="edit-panel__colors">
-      <label class="edit-panel__color-field">
-        <span class="edit-panel__label">{{ t('edit.background') }}</span>
-        <input
-          v-model="bgColor"
-          type="color"
-          class="edit-panel__color"
-          :aria-label="t('aria.backgroundColor')"
-        />
-      </label>
+    <div class="edit-panel__settings">
+      <div class="edit-panel__colors">
+        <label class="edit-panel__color-field">
+          <span class="edit-panel__label">{{ t('edit.background') }}</span>
+          <input
+            v-model="bgColor"
+            type="color"
+            class="edit-panel__color"
+            :aria-label="t('aria.backgroundColor')"
+          />
+        </label>
 
-      <label class="edit-panel__color-field">
-        <span class="edit-panel__label">{{ t('edit.text') }}</span>
-        <input
-          v-model="textColor"
-          type="color"
-          class="edit-panel__color"
-          :aria-label="t('aria.textColor')"
-        />
-      </label>
-    </div>
+        <label class="edit-panel__color-field">
+          <span class="edit-panel__label">{{ t('edit.text') }}</span>
+          <input
+            v-model="textColor"
+            type="color"
+            class="edit-panel__color"
+            :aria-label="t('aria.textColor')"
+          />
+        </label>
+      </div>
 
-    <div class="edit-panel__speed">
-      <span class="edit-panel__label">{{ t('edit.speed') }}</span>
-      <div class="edit-panel__speed-buttons">
-        <button
-          v-for="option in speedOptions"
-          :key="option"
-          type="button"
-          class="edit-panel__speed-btn"
-          :class="{
-            'edit-panel__speed-btn--active': speedMultiplier === option,
-          }"
-          :aria-pressed="speedMultiplier === option"
-          @click="speedMultiplier = option"
-        >
-          x{{ option }}
-        </button>
+      <div class="edit-panel__speed">
+        <span class="edit-panel__label">{{ t('edit.speed') }}</span>
+        <div class="edit-panel__speed-buttons">
+          <button
+            v-for="option in speedOptions"
+            :key="option"
+            type="button"
+            class="edit-panel__speed-btn"
+            :class="{
+              'edit-panel__speed-btn--active': speedMultiplier === option,
+            }"
+            :aria-pressed="speedMultiplier === option"
+            @click="speedMultiplier = option"
+          >
+            x{{ option }}
+          </button>
+        </div>
       </div>
     </div>
 
@@ -156,8 +159,9 @@ function onMessagePaste(event: ClipboardEvent): void {
         <span>{{ shareFeedback || t('play.share') }}</span>
       </button>
     </div>
+    </div>
 
-    <AppFooter />
+    <AppFooter class="edit-panel__footer" />
   </div>
 </template>
 
@@ -166,17 +170,32 @@ function onMessagePaste(event: ClipboardEvent): void {
   position: relative;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+  background: #1a1a1a;
+  color: #f0f0f0;
+}
+
+.edit-panel__scroll {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   gap: 1.5rem;
-  width: 100%;
-  min-height: 100%;
-  min-height: 100dvh;
+  min-height: 0;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  padding: 4.5rem 1.5rem 2.75rem;
-  background: #1a1a1a;
-  color: #f0f0f0;
+  padding: 4.5rem 1.5rem 1rem;
+}
+
+.edit-panel__footer :deep(.app-footer) {
+  position: static;
+  flex-shrink: 0;
+  padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
 }
 
 .edit-panel__header {
@@ -249,6 +268,10 @@ function onMessagePaste(event: ClipboardEvent): void {
   font-size: 0.75rem;
   color: #666;
   text-align: right;
+}
+
+.edit-panel__settings {
+  display: contents;
 }
 
 .edit-panel__colors {
@@ -358,5 +381,41 @@ function onMessagePaste(event: ClipboardEvent): void {
 .edit-panel__share:disabled {
   opacity: 0.4;
   cursor: not-allowed;
+}
+
+@media (orientation: landscape) and (max-height: 32rem) {
+  .edit-panel__scroll {
+    gap: 0.75rem;
+    padding: 3.25rem 1rem 0.75rem;
+  }
+
+  .edit-panel__settings {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 28rem;
+  }
+
+  .edit-panel__colors {
+    gap: 1rem;
+  }
+
+  .edit-panel__speed-btn {
+    min-width: 2.75rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .edit-panel__color {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .edit-panel__play,
+  .edit-panel__share {
+    padding: 0.625rem 1.25rem;
+    font-size: 1rem;
+  }
 }
 </style>
