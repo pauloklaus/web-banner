@@ -15,6 +15,7 @@
   "play": {
     "share": "Compartir",
     "invertColors": "Invertir colores",
+    "cycleSpeed": "Cambiar velocidad",
     "stop": "Detener"
   },
   "share": {
@@ -32,6 +33,7 @@
     "backgroundColor": "Color de fondo",
     "textColor": "Color del texto",
     "stopPlay": "Detener y volver al modo de edición",
-    "invertColors": "Invertir colores de fondo y texto"
+    "invertColors": "Invertir colores de fondo y texto",
+    "cycleSpeed": "Cambiar velocidad, actualmente {speed}"
   }
 }

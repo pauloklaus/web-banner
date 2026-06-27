@@ -26,6 +26,7 @@ const emit = defineEmits<{
   stop: []
   share: []
   invertColors: []
+  cycleSpeed: []
 }>()
 
 const textRef = ref<HTMLSpanElement | null>(null)
@@ -38,6 +39,8 @@ function updateFontSize() {
 }
 
 const scrollSpeed = computed(() => BASE_SPEED * (props.speedMultiplier ?? 1))
+
+const speedLabel = computed(() => `x${props.speedMultiplier ?? 1}`)
 
 const { isPaused, start, stop, togglePause } = useScrollBanner(textRef, {
   speed: scrollSpeed,
@@ -71,6 +74,11 @@ function onShare(event: MouseEvent): void {
 function onInvertColors(event: MouseEvent): void {
   event.stopPropagation()
   emit('invertColors')
+}
+
+function onCycleSpeed(event: MouseEvent): void {
+  event.stopPropagation()
+  emit('cycleSpeed')
 }
 
 async function handleResize() {
@@ -123,6 +131,16 @@ onUnmounted(() => {
         @click="onInvertColors"
       >
         <ActionIcon :src="invertColorIcon" size="1rem" />
+      </button>
+
+      <button
+        class="play-banner__speed play-banner__action-btn"
+        type="button"
+        :title="t('play.cycleSpeed')"
+        :aria-label="t('aria.cycleSpeed', { speed: speedLabel })"
+        @click="onCycleSpeed"
+      >
+        {{ speedLabel }}
       </button>
 
       <button
@@ -185,12 +203,22 @@ onUnmounted(() => {
 
 .play-banner__share,
 .play-banner__invert,
+.play-banner__speed,
 .play-banner__stop {
   padding: 0.5rem;
   color: #fff;
   background: rgba(0, 0, 0, 0.6);
   border-radius: 0.375rem;
   cursor: pointer;
+}
+
+.play-banner__speed {
+  min-width: calc(0.5rem * 2 + 1rem);
+  height: calc(0.5rem * 2 + 1rem);
+  padding: 0 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1;
 }
 
 .play-banner__action-btn {
@@ -205,6 +233,7 @@ onUnmounted(() => {
 
 .play-banner__share:hover,
 .play-banner__invert:hover,
+.play-banner__speed:hover,
 .play-banner__stop:hover {
   background: rgba(0, 0, 0, 0.8);
 }

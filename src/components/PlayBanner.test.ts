@@ -80,6 +80,33 @@ describe('PlayBanner', () => {
     expect(wrapper.emitted('invertColors')).toHaveLength(1)
   })
 
+  it('shows current speed on speed button', () => {
+    const wrapper = mountWithI18n(PlayBanner, {
+      props: {
+        message: 'Hello',
+        bgColor: '#000000',
+        textColor: '#ffffff',
+        speedMultiplier: 4,
+      },
+    })
+
+    expect(wrapper.find('.play-banner__speed').text()).toBe('x4')
+  })
+
+  it('emits cycleSpeed when speed button is clicked', async () => {
+    const wrapper = mountWithI18n(PlayBanner, {
+      props: {
+        message: 'Hello',
+        bgColor: '#000000',
+        textColor: '#ffffff',
+        speedMultiplier: 2,
+      },
+    })
+
+    await wrapper.find('.play-banner__speed').trigger('click')
+    expect(wrapper.emitted('cycleSpeed')).toHaveLength(1)
+  })
+
   it('shows action labels in title attributes', () => {
     const wrapper = mountWithI18n(PlayBanner, {
       props: {
