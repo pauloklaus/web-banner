@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n'
 import { MAX_MESSAGE_LENGTH, toPlainText } from '@/utils'
 import { usePwaInstall } from '@/composables'
 import { APP_NAME } from '@/config'
+import AppBrand from './AppBrand.vue'
 import AppFooter from './AppFooter.vue'
 import ActionIcon from './ActionIcon.vue'
 import installIcon from '../assets/icons/install.svg'
@@ -61,16 +62,7 @@ function onMessagePaste(event: ClipboardEvent): void {
 <template>
   <div class="edit-panel">
     <header class="edit-panel__header">
-      <div class="edit-panel__brand">
-        <img
-          class="edit-panel__logo"
-          src="/icons/apple-touch-icon.png"
-          width="36"
-          height="36"
-          :alt="APP_NAME"
-        />
-        <span class="edit-panel__brand-name">{{ APP_NAME }}</span>
-      </div>
+      <AppBrand :label="APP_NAME" />
 
       <button
         v-if="canInstall"
@@ -189,29 +181,15 @@ function onMessagePaste(event: ClipboardEvent): void {
 
 .edit-panel__header {
   position: fixed;
-  top: 12px;
-  left: 12px;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 0.75rem;
-}
-
-.edit-panel__brand {
-  display: flex;
-  align-items: center;
-  gap: 0.625rem;
-}
-
-.edit-panel__logo {
-  display: block;
-  border-radius: 0.5rem;
-}
-
-.edit-panel__brand-name {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #f0f0f0;
+  padding: 12px;
 }
 
 .edit-panel__install {
