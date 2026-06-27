@@ -80,6 +80,54 @@ describe('PlayBanner', () => {
     expect(wrapper.emitted('invertColors')).toHaveLength(1)
   })
 
+  it('shows action labels in title attributes', () => {
+    const wrapper = mountWithI18n(PlayBanner, {
+      props: {
+        message: 'Hello',
+        bgColor: '#000000',
+        textColor: '#ffffff',
+      },
+    })
+
+    expect(wrapper.find('.play-banner__share').attributes('title')).toBe(
+      'Share',
+    )
+    expect(wrapper.find('.play-banner__invert').attributes('title')).toBe(
+      'Invert colors',
+    )
+    expect(wrapper.find('.play-banner__stop').attributes('title')).toBe('Stop')
+  })
+
+  it('shows share feedback to the left of the share button', () => {
+    const wrapper = mountWithI18n(PlayBanner, {
+      props: {
+        message: 'Hello',
+        bgColor: '#000000',
+        textColor: '#ffffff',
+        shareFeedback: 'Link copied!',
+      },
+    })
+
+    const feedback = wrapper.find('.play-banner__share-feedback')
+    expect(feedback.exists()).toBe(true)
+    expect(feedback.text()).toBe('Link copied!')
+    expect(wrapper.find('.play-banner__share').attributes('title')).toBe(
+      'Share',
+    )
+  })
+
+  it('hides share feedback when not set', () => {
+    const wrapper = mountWithI18n(PlayBanner, {
+      props: {
+        message: 'Hello',
+        bgColor: '#000000',
+        textColor: '#ffffff',
+      },
+    })
+
+    expect(wrapper.find('.play-banner__share-feedback').exists()).toBe(false)
+  })
+
   it('toggles paused state when banner is clicked', async () => {
     const wrapper = mountWithI18n(PlayBanner, {
       props: {

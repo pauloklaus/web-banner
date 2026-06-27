@@ -99,35 +99,40 @@ onUnmounted(() => {
     :style="bannerStyle"
     @click="onBannerClick"
   >
-    <div class="play-banner__controls">
+    <div class="play-banner__controls" @click.stop>
+      <span
+        v-if="shareFeedback"
+        class="play-banner__share-feedback"
+      >{{ shareFeedback }}</span>
+
       <button
         class="play-banner__share play-banner__action-btn"
         type="button"
+        :title="t('play.share')"
         :aria-label="t('share.ariaLabel')"
         @click="onShare"
       >
         <ActionIcon :src="shareIcon" size="1rem" />
-        <span>{{ shareFeedback || t('play.share') }}</span>
       </button>
 
       <button
         class="play-banner__invert play-banner__action-btn"
         type="button"
+        :title="t('play.invertColors')"
         :aria-label="t('aria.invertColors')"
         @click="onInvertColors"
       >
         <ActionIcon :src="invertColorIcon" size="1rem" />
-        <span>{{ t('play.invertColors') }}</span>
       </button>
 
       <button
         class="play-banner__stop play-banner__action-btn"
         type="button"
+        :title="t('play.stop')"
         :aria-label="t('aria.stopPlay')"
         @click="onStop"
       >
         <ActionIcon :src="stopIcon" size="1rem" />
-        <span>{{ t('play.stop') }}</span>
       </button>
     </div>
 
@@ -160,15 +165,28 @@ onUnmounted(() => {
   right: 12px;
   z-index: 10;
   display: flex;
+  align-items: center;
   gap: 0.5rem;
+}
+
+.play-banner__share-feedback {
+  display: inline-flex;
+  align-items: center;
+  height: calc(0.5rem * 2 + 1rem);
+  padding: 0 0.625rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 0.375rem;
+  white-space: nowrap;
 }
 
 .play-banner__share,
 .play-banner__invert,
 .play-banner__stop {
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  font-weight: 600;
+  padding: 0.5rem;
   color: #fff;
   background: rgba(0, 0, 0, 0.6);
   border-radius: 0.375rem;
@@ -178,7 +196,7 @@ onUnmounted(() => {
 .play-banner__action-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.375rem;
+  justify-content: center;
 }
 
 .play-banner__action-btn :deep(.action-icon) {
