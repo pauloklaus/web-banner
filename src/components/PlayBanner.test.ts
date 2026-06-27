@@ -67,6 +67,19 @@ describe('PlayBanner', () => {
     expect(wrapper.emitted('share')).toHaveLength(1)
   })
 
+  it('emits invertColors when invert button is clicked', async () => {
+    const wrapper = mountWithI18n(PlayBanner, {
+      props: {
+        message: 'Hello',
+        bgColor: '#000000',
+        textColor: '#ffffff',
+      },
+    })
+
+    await wrapper.find('.play-banner__invert').trigger('click')
+    expect(wrapper.emitted('invertColors')).toHaveLength(1)
+  })
+
   it('toggles paused state when banner is clicked', async () => {
     const wrapper = mountWithI18n(PlayBanner, {
       props: {

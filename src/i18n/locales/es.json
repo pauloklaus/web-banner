@@ -14,6 +14,7 @@
   },
   "play": {
     "share": "Compartir",
+    "invertColors": "Invertir colores",
     "stop": "Detener"
   },
   "share": {
@@ -30,6 +31,7 @@
   "aria": {
     "backgroundColor": "Color de fondo",
     "textColor": "Color del texto",
-    "stopPlay": "Detener y volver al modo de edición"
+    "stopPlay": "Detener y volver al modo de edición",
+    "invertColors": "Invertir colores de fondo y texto"
   }
 }

@@ -34,6 +34,12 @@ function stopPlay() {
   mode.value = 'edit'
 }
 
+function invertColors() {
+  const previousBg = bgColor.value
+  bgColor.value = textColor.value
+  textColor.value = previousBg
+}
+
 async function handleShare() {
   syncNow()
   const result = await shareConfigUrl(buildConfigUrl(state))
@@ -66,6 +72,7 @@ async function handleShare() {
     :speed-multiplier="speedMultiplier"
     :share-feedback="shareFeedback"
     @share="handleShare"
+    @invert-colors="invertColors"
     @stop="stopPlay"
   />
 </template>

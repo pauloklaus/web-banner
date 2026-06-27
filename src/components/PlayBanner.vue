@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n'
 import { useScrollBanner } from '@/composables'
 import ActionIcon from './ActionIcon.vue'
 import shareIcon from '../assets/icons/share.svg'
+import invertColorIcon from '../assets/icons/invert-color.svg'
 import stopIcon from '../assets/icons/stop.svg'
 import type { SpeedOption } from '@/types/speedOption'
 
@@ -24,6 +25,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   stop: []
   share: []
+  invertColors: []
 }>()
 
 const textRef = ref<HTMLSpanElement | null>(null)
@@ -66,6 +68,11 @@ function onShare(event: MouseEvent): void {
   emit('share')
 }
 
+function onInvertColors(event: MouseEvent): void {
+  event.stopPropagation()
+  emit('invertColors')
+}
+
 async function handleResize() {
   updateFontSize()
   await nextTick()
@@ -101,6 +108,16 @@ onUnmounted(() => {
       >
         <ActionIcon :src="shareIcon" size="1rem" />
         <span>{{ shareFeedback || t('play.share') }}</span>
+      </button>
+
+      <button
+        class="play-banner__invert play-banner__action-btn"
+        type="button"
+        :aria-label="t('aria.invertColors')"
+        @click="onInvertColors"
+      >
+        <ActionIcon :src="invertColorIcon" size="1rem" />
+        <span>{{ t('play.invertColors') }}</span>
       </button>
 
       <button
@@ -147,6 +164,7 @@ onUnmounted(() => {
 }
 
 .play-banner__share,
+.play-banner__invert,
 .play-banner__stop {
   padding: 0.5rem 1rem;
   font-size: 0.875rem;
@@ -168,6 +186,7 @@ onUnmounted(() => {
 }
 
 .play-banner__share:hover,
+.play-banner__invert:hover,
 .play-banner__stop:hover {
   background: rgba(0, 0, 0, 0.8);
 }
