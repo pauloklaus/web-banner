@@ -78,87 +78,87 @@ function onMessagePaste(event: ClipboardEvent): void {
 
     <div class="edit-panel__scroll">
       <label class="edit-panel__field">
-      <span class="edit-panel__label">{{ t('edit.message') }}</span>
-      <input
-        :value="message"
-        type="text"
-        class="edit-panel__input"
-        :placeholder="t('edit.messagePlaceholder')"
-        :maxlength="MAX_MESSAGE_LENGTH"
-        @input="onMessageInput"
-        @paste="onMessagePaste"
-        @keyup.enter="onPlay"
-      />
-      <span class="edit-panel__counter"
-        >{{ message.length }}/{{ MAX_MESSAGE_LENGTH }}</span
-      >
-    </label>
+        <span class="edit-panel__label">{{ t('edit.message') }}</span>
+        <input
+          :value="message"
+          type="text"
+          class="edit-panel__input"
+          :placeholder="t('edit.messagePlaceholder')"
+          :maxlength="MAX_MESSAGE_LENGTH"
+          @input="onMessageInput"
+          @paste="onMessagePaste"
+          @keyup.enter="onPlay"
+        />
+        <span class="edit-panel__counter"
+          >{{ message.length }}/{{ MAX_MESSAGE_LENGTH }}</span
+        >
+      </label>
 
-    <div class="edit-panel__settings">
-      <div class="edit-panel__colors">
-        <label class="edit-panel__color-field">
-          <span class="edit-panel__label">{{ t('edit.background') }}</span>
-          <input
-            v-model="bgColor"
-            type="color"
-            class="edit-panel__color"
-            :aria-label="t('aria.backgroundColor')"
-          />
-        </label>
+      <div class="edit-panel__settings">
+        <div class="edit-panel__colors">
+          <label class="edit-panel__color-field">
+            <span class="edit-panel__label">{{ t('edit.background') }}</span>
+            <input
+              v-model="bgColor"
+              type="color"
+              class="edit-panel__color"
+              :aria-label="t('aria.backgroundColor')"
+            />
+          </label>
 
-        <label class="edit-panel__color-field">
-          <span class="edit-panel__label">{{ t('edit.text') }}</span>
-          <input
-            v-model="textColor"
-            type="color"
-            class="edit-panel__color"
-            :aria-label="t('aria.textColor')"
-          />
-        </label>
-      </div>
+          <label class="edit-panel__color-field">
+            <span class="edit-panel__label">{{ t('edit.text') }}</span>
+            <input
+              v-model="textColor"
+              type="color"
+              class="edit-panel__color"
+              :aria-label="t('aria.textColor')"
+            />
+          </label>
+        </div>
 
-      <div class="edit-panel__speed">
-        <span class="edit-panel__label">{{ t('edit.speed') }}</span>
-        <div class="edit-panel__speed-buttons">
-          <button
-            v-for="option in speedOptions"
-            :key="option"
-            type="button"
-            class="edit-panel__speed-btn"
-            :class="{
-              'edit-panel__speed-btn--active': speedMultiplier === option,
-            }"
-            :aria-pressed="speedMultiplier === option"
-            @click="speedMultiplier = option"
-          >
-            x{{ option }}
-          </button>
+        <div class="edit-panel__speed">
+          <span class="edit-panel__label">{{ t('edit.speed') }}</span>
+          <div class="edit-panel__speed-buttons">
+            <button
+              v-for="option in speedOptions"
+              :key="option"
+              type="button"
+              class="edit-panel__speed-btn"
+              :class="{
+                'edit-panel__speed-btn--active': speedMultiplier === option,
+              }"
+              :aria-pressed="speedMultiplier === option"
+              @click="speedMultiplier = option"
+            >
+              x{{ option }}
+            </button>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="edit-panel__actions">
-      <button
-        class="edit-panel__play edit-panel__action-btn"
-        type="button"
-        :disabled="!canPlay"
-        @click="onPlay"
-      >
-        <ActionIcon :src="playIcon" />
-        <span>{{ t('edit.play') }}</span>
-      </button>
+      <div class="edit-panel__actions">
+        <button
+          class="edit-panel__play edit-panel__action-btn"
+          type="button"
+          :disabled="!canPlay"
+          @click="onPlay"
+        >
+          <ActionIcon :src="playIcon" />
+          <span>{{ t('edit.play') }}</span>
+        </button>
 
-      <button
-        class="edit-panel__share edit-panel__action-btn"
-        type="button"
-        :disabled="!canPlay"
-        :aria-label="t('share.ariaLabel')"
-        @click="emit('share')"
-      >
-        <ActionIcon :src="shareIcon" />
-        <span>{{ shareFeedback || t('play.share') }}</span>
-      </button>
-    </div>
+        <button
+          class="edit-panel__share edit-panel__action-btn"
+          type="button"
+          :disabled="!canPlay"
+          :aria-label="t('share.ariaLabel')"
+          @click="emit('share')"
+        >
+          <ActionIcon :src="shareIcon" />
+          <span>{{ shareFeedback || t('play.share') }}</span>
+        </button>
+      </div>
     </div>
 
     <AppFooter class="edit-panel__footer" />
