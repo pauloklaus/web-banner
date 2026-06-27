@@ -23,7 +23,8 @@ export function useScrollBanner(
     if (!textRef.value) return
     const rect = textRef.value.getBoundingClientRect()
     textWidth = rect.width
-    viewportWidth = window.innerWidth
+    const track = textRef.value.parentElement
+    viewportWidth = track?.clientWidth || window.innerWidth
   }
 
   function resetPosition(): void {

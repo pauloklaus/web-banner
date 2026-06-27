@@ -168,7 +168,7 @@ describe('PlayBanner', () => {
       'play-banner--paused',
     )
 
-    await wrapper.find('.play-banner').trigger('click')
+    await wrapper.find('.play-banner__track').trigger('click')
     expect(wrapper.find('.play-banner').classes()).toContain(
       'play-banner--paused',
     )
