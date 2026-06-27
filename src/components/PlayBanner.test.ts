@@ -174,6 +174,26 @@ describe('PlayBanner', () => {
     )
   })
 
+  it('does not pause when controls or brand are clicked', async () => {
+    const wrapper = mountWithI18n(PlayBanner, {
+      props: {
+        message: 'Hello',
+        bgColor: '#000000',
+        textColor: '#ffffff',
+      },
+    })
+
+    await wrapper.find('.play-banner__share').trigger('click')
+    expect(wrapper.find('.play-banner').classes()).not.toContain(
+      'play-banner--paused',
+    )
+
+    await wrapper.find('.play-banner__brand').trigger('click')
+    expect(wrapper.find('.play-banner').classes()).not.toContain(
+      'play-banner--paused',
+    )
+  })
+
   it('applies background and text colors', () => {
     const wrapper = mountWithI18n(PlayBanner, {
       props: {

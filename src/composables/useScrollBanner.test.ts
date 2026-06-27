@@ -18,6 +18,22 @@ const TestHost = defineComponent({
   template: '<span ref="textRef">Scrolling text</span>',
 })
 
+const TrackTestHost = defineComponent({
+  props: {
+    speed: {
+      type: Number,
+      default: 120,
+    },
+  },
+  setup(props) {
+    const textRef = ref<HTMLElement | null>(null)
+    const banner = useScrollBanner(textRef, { speed: toRef(props, 'speed') })
+    return { textRef, ...banner }
+  },
+  template:
+    '<div class="track"><span ref="textRef">Scrolling text</span></div>',
+})
+
 describe('useScrollBanner', () => {
   beforeEach(() => {
     vi.stubGlobal(
@@ -62,6 +78,23 @@ describe('useScrollBanner', () => {
     await nextTick()
 
     expect(wrapper.vm.textRef?.style.transform).toContain('translate(800px')
+    wrapper.unmount()
+  })
+
+  it('uses track width when text is inside a track', async () => {
+    const wrapper = mount(TrackTestHost)
+    await nextTick()
+
+    const track = wrapper.vm.textRef?.parentElement as HTMLElement
+    Object.defineProperty(track, 'clientWidth', {
+      value: 640,
+      configurable: true,
+    })
+
+    wrapper.vm.start()
+    await nextTick()
+
+    expect(wrapper.vm.textRef?.style.transform).toContain('translate(640px')
     wrapper.unmount()
   })
 
