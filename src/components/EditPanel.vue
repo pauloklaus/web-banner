@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n'
 import { MAX_MESSAGE_LENGTH, toPlainText } from '@/utils'
 import { usePwaInstall } from '@/composables'
 import { APP_NAME } from '@/config'
+import AppBrand from './AppBrand.vue'
 import AppFooter from './AppFooter.vue'
 import ActionIcon from './ActionIcon.vue'
 import installIcon from '../assets/icons/install.svg'
@@ -61,16 +62,7 @@ function onMessagePaste(event: ClipboardEvent): void {
 <template>
   <div class="edit-panel">
     <header class="edit-panel__header">
-      <div class="edit-panel__brand">
-        <img
-          class="edit-panel__logo"
-          src="/icons/apple-touch-icon.png"
-          width="36"
-          height="36"
-          :alt="APP_NAME"
-        />
-        <span class="edit-panel__brand-name">{{ APP_NAME }}</span>
-      </div>
+      <AppBrand :label="APP_NAME" />
 
       <button
         v-if="canInstall"
@@ -84,88 +76,92 @@ function onMessagePaste(event: ClipboardEvent): void {
       </button>
     </header>
 
-    <label class="edit-panel__field">
-      <span class="edit-panel__label">{{ t('edit.message') }}</span>
-      <input
-        :value="message"
-        type="text"
-        class="edit-panel__input"
-        :placeholder="t('edit.messagePlaceholder')"
-        :maxlength="MAX_MESSAGE_LENGTH"
-        @input="onMessageInput"
-        @paste="onMessagePaste"
-        @keyup.enter="onPlay"
-      />
-      <span class="edit-panel__counter"
-        >{{ message.length }}/{{ MAX_MESSAGE_LENGTH }}</span
-      >
-    </label>
-
-    <div class="edit-panel__colors">
-      <label class="edit-panel__color-field">
-        <span class="edit-panel__label">{{ t('edit.background') }}</span>
+    <div class="edit-panel__scroll">
+      <label class="edit-panel__field">
+        <span class="edit-panel__label">{{ t('edit.message') }}</span>
         <input
-          v-model="bgColor"
-          type="color"
-          class="edit-panel__color"
-          :aria-label="t('aria.backgroundColor')"
+          :value="message"
+          type="text"
+          class="edit-panel__input"
+          :placeholder="t('edit.messagePlaceholder')"
+          :maxlength="MAX_MESSAGE_LENGTH"
+          @input="onMessageInput"
+          @paste="onMessagePaste"
+          @keyup.enter="onPlay"
         />
-      </label>
-
-      <label class="edit-panel__color-field">
-        <span class="edit-panel__label">{{ t('edit.text') }}</span>
-        <input
-          v-model="textColor"
-          type="color"
-          class="edit-panel__color"
-          :aria-label="t('aria.textColor')"
-        />
-      </label>
-    </div>
-
-    <div class="edit-panel__speed">
-      <span class="edit-panel__label">{{ t('edit.speed') }}</span>
-      <div class="edit-panel__speed-buttons">
-        <button
-          v-for="option in speedOptions"
-          :key="option"
-          type="button"
-          class="edit-panel__speed-btn"
-          :class="{
-            'edit-panel__speed-btn--active': speedMultiplier === option,
-          }"
-          :aria-pressed="speedMultiplier === option"
-          @click="speedMultiplier = option"
+        <span class="edit-panel__counter"
+          >{{ message.length }}/{{ MAX_MESSAGE_LENGTH }}</span
         >
-          x{{ option }}
+      </label>
+
+      <div class="edit-panel__settings">
+        <div class="edit-panel__colors">
+          <label class="edit-panel__color-field">
+            <span class="edit-panel__label">{{ t('edit.background') }}</span>
+            <input
+              v-model="bgColor"
+              type="color"
+              class="edit-panel__color"
+              :aria-label="t('aria.backgroundColor')"
+            />
+          </label>
+
+          <label class="edit-panel__color-field">
+            <span class="edit-panel__label">{{ t('edit.text') }}</span>
+            <input
+              v-model="textColor"
+              type="color"
+              class="edit-panel__color"
+              :aria-label="t('aria.textColor')"
+            />
+          </label>
+        </div>
+
+        <div class="edit-panel__speed">
+          <span class="edit-panel__label">{{ t('edit.speed') }}</span>
+          <div class="edit-panel__speed-buttons">
+            <button
+              v-for="option in speedOptions"
+              :key="option"
+              type="button"
+              class="edit-panel__speed-btn"
+              :class="{
+                'edit-panel__speed-btn--active': speedMultiplier === option,
+              }"
+              :aria-pressed="speedMultiplier === option"
+              @click="speedMultiplier = option"
+            >
+              x{{ option }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="edit-panel__actions">
+        <button
+          class="edit-panel__play edit-panel__action-btn"
+          type="button"
+          :disabled="!canPlay"
+          @click="onPlay"
+        >
+          <ActionIcon :src="playIcon" />
+          <span>{{ t('edit.play') }}</span>
+        </button>
+
+        <button
+          class="edit-panel__share edit-panel__action-btn"
+          type="button"
+          :disabled="!canPlay"
+          :aria-label="t('share.ariaLabel')"
+          @click="emit('share')"
+        >
+          <ActionIcon :src="shareIcon" />
+          <span>{{ shareFeedback || t('play.share') }}</span>
         </button>
       </div>
     </div>
 
-    <div class="edit-panel__actions">
-      <button
-        class="edit-panel__play edit-panel__action-btn"
-        type="button"
-        :disabled="!canPlay"
-        @click="onPlay"
-      >
-        <ActionIcon :src="playIcon" />
-        <span>{{ t('edit.play') }}</span>
-      </button>
-
-      <button
-        class="edit-panel__share edit-panel__action-btn"
-        type="button"
-        :disabled="!canPlay"
-        :aria-label="t('share.ariaLabel')"
-        @click="emit('share')"
-      >
-        <ActionIcon :src="shareIcon" />
-        <span>{{ shareFeedback || t('play.share') }}</span>
-      </button>
-    </div>
-
-    <AppFooter />
+    <AppFooter class="edit-panel__footer" />
   </div>
 </template>
 
@@ -174,44 +170,45 @@ function onMessagePaste(event: ClipboardEvent): void {
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 1.5rem;
   width: 100%;
-  min-height: 100%;
-  min-height: 100dvh;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  padding: 4.5rem 1.5rem 2.75rem;
+  height: 100%;
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
   background: #1a1a1a;
   color: #f0f0f0;
 }
 
+.edit-panel__scroll {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1.5rem;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 4.5rem 1.5rem 1rem;
+}
+
+.edit-panel__footer :deep(.app-footer) {
+  position: static;
+  flex-shrink: 0;
+  padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
+}
+
 .edit-panel__header {
   position: fixed;
-  top: 12px;
-  left: 12px;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 0.75rem;
-}
-
-.edit-panel__brand {
-  display: flex;
-  align-items: center;
-  gap: 0.625rem;
-}
-
-.edit-panel__logo {
-  display: block;
-  border-radius: 0.5rem;
-}
-
-.edit-panel__brand-name {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #f0f0f0;
+  padding: 12px;
 }
 
 .edit-panel__install {
@@ -271,6 +268,10 @@ function onMessagePaste(event: ClipboardEvent): void {
   font-size: 0.75rem;
   color: #666;
   text-align: right;
+}
+
+.edit-panel__settings {
+  display: contents;
 }
 
 .edit-panel__colors {
@@ -380,5 +381,41 @@ function onMessagePaste(event: ClipboardEvent): void {
 .edit-panel__share:disabled {
   opacity: 0.4;
   cursor: not-allowed;
+}
+
+@media (orientation: landscape) and (max-height: 32rem) {
+  .edit-panel__scroll {
+    gap: 0.75rem;
+    padding: 3.25rem 1rem 0.75rem;
+  }
+
+  .edit-panel__settings {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 28rem;
+  }
+
+  .edit-panel__colors {
+    gap: 1rem;
+  }
+
+  .edit-panel__speed-btn {
+    min-width: 2.75rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .edit-panel__color {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .edit-panel__play,
+  .edit-panel__share {
+    padding: 0.625rem 1.25rem;
+    font-size: 1rem;
+  }
 }
 </style>

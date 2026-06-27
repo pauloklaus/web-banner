@@ -14,6 +14,8 @@
   },
   "play": {
     "share": "Share",
+    "invertColors": "Invert colors",
+    "cycleSpeed": "Change speed",
     "stop": "Stop"
   },
   "share": {
@@ -30,6 +32,8 @@
   "aria": {
     "backgroundColor": "Background color",
     "textColor": "Text color",
-    "stopPlay": "Stop and return to edit mode"
+    "stopPlay": "Stop and return to edit mode",
+    "invertColors": "Invert background and text colors",
+    "cycleSpeed": "Change speed, currently {speed}"
   }
 }

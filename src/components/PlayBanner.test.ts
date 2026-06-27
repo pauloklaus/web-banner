@@ -67,6 +67,94 @@ describe('PlayBanner', () => {
     expect(wrapper.emitted('share')).toHaveLength(1)
   })
 
+  it('emits invertColors when invert button is clicked', async () => {
+    const wrapper = mountWithI18n(PlayBanner, {
+      props: {
+        message: 'Hello',
+        bgColor: '#000000',
+        textColor: '#ffffff',
+      },
+    })
+
+    await wrapper.find('.play-banner__invert').trigger('click')
+    expect(wrapper.emitted('invertColors')).toHaveLength(1)
+  })
+
+  it('shows current speed on speed button', () => {
+    const wrapper = mountWithI18n(PlayBanner, {
+      props: {
+        message: 'Hello',
+        bgColor: '#000000',
+        textColor: '#ffffff',
+        speedMultiplier: 4,
+      },
+    })
+
+    expect(wrapper.find('.play-banner__speed').text()).toBe('x4')
+  })
+
+  it('emits cycleSpeed when speed button is clicked', async () => {
+    const wrapper = mountWithI18n(PlayBanner, {
+      props: {
+        message: 'Hello',
+        bgColor: '#000000',
+        textColor: '#ffffff',
+        speedMultiplier: 2,
+      },
+    })
+
+    await wrapper.find('.play-banner__speed').trigger('click')
+    expect(wrapper.emitted('cycleSpeed')).toHaveLength(1)
+  })
+
+  it('shows action labels in title attributes', () => {
+    const wrapper = mountWithI18n(PlayBanner, {
+      props: {
+        message: 'Hello',
+        bgColor: '#000000',
+        textColor: '#ffffff',
+      },
+    })
+
+    expect(wrapper.find('.play-banner__share').attributes('title')).toBe(
+      'Share',
+    )
+    expect(wrapper.find('.play-banner__invert').attributes('title')).toBe(
+      'Invert colors',
+    )
+    expect(wrapper.find('.play-banner__stop').attributes('title')).toBe('Stop')
+  })
+
+  it('shows share feedback to the left of the share button', () => {
+    const wrapper = mountWithI18n(PlayBanner, {
+      props: {
+        message: 'Hello',
+        bgColor: '#000000',
+        textColor: '#ffffff',
+        shareFeedback: 'Link copied!',
+      },
+    })
+
+    const feedback = wrapper.find('.play-banner__share-feedback')
+    expect(feedback.exists()).toBe(true)
+    expect(feedback.text()).toBe('Link copied!')
+    expect(wrapper.find('.play-banner__share').attributes('title')).toBe(
+      'Share',
+    )
+  })
+
+  it('hides share feedback when not set', () => {
+    const wrapper = mountWithI18n(PlayBanner, {
+      props: {
+        message: 'Hello',
+        bgColor: '#000000',
+        textColor: '#ffffff',
+      },
+    })
+
+    expect(wrapper.find('.play-banner__share-feedback').exists()).toBe(false)
+  })
+
   it('toggles paused state when banner is clicked', async () => {
     const wrapper = mountWithI18n(PlayBanner, {
       props: {
@@ -80,8 +168,28 @@ describe('PlayBanner', () => {
       'play-banner--paused',
     )
 
-    await wrapper.find('.play-banner').trigger('click')
+    await wrapper.find('.play-banner__track').trigger('click')
     expect(wrapper.find('.play-banner').classes()).toContain(
+      'play-banner--paused',
+    )
+  })
+
+  it('does not pause when controls or brand are clicked', async () => {
+    const wrapper = mountWithI18n(PlayBanner, {
+      props: {
+        message: 'Hello',
+        bgColor: '#000000',
+        textColor: '#ffffff',
+      },
+    })
+
+    await wrapper.find('.play-banner__share').trigger('click')
+    expect(wrapper.find('.play-banner').classes()).not.toContain(
+      'play-banner--paused',
+    )
+
+    await wrapper.find('.play-banner__brand').trigger('click')
+    expect(wrapper.find('.play-banner').classes()).not.toContain(
       'play-banner--paused',
     )
   })
